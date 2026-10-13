@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mackenzie Shein | App Premium</title>
+    <style>
+       /* =========================================
+           VARIABLES Y CONFIGURACIÓN BASE
+           ========================================= */
+        :root {
+            --fucsia-neon: #ff007f;
+            --fucsia-glow: rgba(255, 0, 127, 0.6);
+            --bg-dark: #09090b;
+            --glass-bg: rgba(20, 20, 25, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-light: #ffffff;
+            --text-muted: #a1a1aa;
+        }
+
+        /* Variables para el Tema Claro */
+        body.light-theme {
+            --bg-dark: #f0f2f5;
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --text-light: #1a1a1a;
+            --text-muted: #666666;
+        }
+
+        body.light-theme .animated-background { background: #e4e4eb; }
+        body.light-theme .nav-btn:hover, body.light-theme .nav-btn.active { background: rgba(255, 0, 127, 0.1); color: var(--fucsia-neon); }
+        body.light-theme .input-group input, body.light-theme .neon-select { color: #333; background: rgba(255,255,255,0.9); }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* =========================================
+           FONDO ANIMADO DESLUMBRANTE
+           ========================================= */
+        .animated-background {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            background: #050505;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: floatBlob 10s infinite alternate ease-in-out;
+        }
+
+        .blob-1 {
+            width: 400px; height: 400px;
+            background: var(--fucsia-neon);
+            top: -100px; left: -100px;
+        }
+
+        .blob-2 {
+            width: 500px; height: 500px;
+            background: #4a00e0;
+            bottom: -150px; right: -100px;
+            animation-delay: 2s;
+        }
+
+        @keyframes floatBlob {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 50px) scale(1.1); }
+        }
+
+        /* =========================================
+           SISTEMA 3D DE LOGIN / REGISTRO
+           ========================================= */
+        #auth-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            perspective: 1500px; /* Necesario para el efecto 3D */
+        }
+
+        .flip-card {
+            width: 100%;
+            max-width: 450px;
+            min-height: 650px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1); /* Giro suave y realista */
+        }
+
+        .flip-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            box-sizing: border-box;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,0,127,0.1);
+        }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Tipografía y Formularios */
+        .auth-title {
+            text-align: center;
+            font-size: 2.2em;
+            margin-bottom: 5px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        
+        .auth-title span {
+            color: var(--fucsia-neon);
+            text-shadow: 0 0 15px var(--fucsia-glow);
+        }
+
+        .auth-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+     .input-group input, .neon-select {
+            width: 100%; padding: 15px; background: var(--glass-bg);
+            border: 1px solid var(--glass-border); border-radius: 8px;
+            color: var(--text-light); /* ✅ Corrección Tema Claro: Letras visibles */
+            font-size: 1em; outline: none; box-sizing: border-box; transition: all 0.3s;
+        }
+        .input-group input:focus, .neon-select:focus {
+            border-color: var(--fucsia-neon);
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+            background: var(--bg-dark);
+        }
+
+        /* Botones Animados */
+        .btn-neon {
+            width: 100%; padding: 15px; background: linear-gradient(90deg, #ff007f, #d81b60);
+            border: none; border-radius: 8px; color: white; font-size: 1.1em;
+            font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
+            transition: 0.4s; position: relative; overflow: hidden;
+        }
+        .btn-neon:hover {
+            box-shadow: 0 0 20px var(--fucsia-neon), 0 0 40px var(--fucsia-neon);
+            transform: translateY(-2px);
+        }
+        .btn-small { padding: 12px; font-size: 0.9em; border-radius: 8px; margin-top: auto; }
+
+        .switch-link { text-align: center; margin-top: 25px; color: var(--text-muted); }
+        .switch-link a { color: var(--fucsia-neon); cursor: pointer; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        .switch-link a:hover { text-shadow: 0 0 8px var(--fucsia-glow); }
+
+        .file-label {
+            display: block; width: 100%; padding: 15px; background: rgba(255, 0, 127, 0.1);
+            border: 2px dashed var(--fucsia-neon); border-radius: 8px; text-align: center; cursor: pointer; transition: 0.3s; box-sizing: border-box; color: var(--text-light);
+        }
+        .file-label:hover { background: rgba(255, 0, 127, 0.2); box-shadow: 0 0 15px rgba(255, 0, 127, 0.2); }
+
+   /* Icono Carrito Flotante (Pastilla Elegante y Libre de Estiramiento) */
+        .floating-cart {
+            position: fixed; 
+            bottom: 30px; 
+            right: 20px; 
+            background: var(--bg-dark);
+            border-radius: 30px; 
+            padding: 8px 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.9), 0 0 15px var(--fucsia-glow);
+            display: none; /* JS controla si se ve */
+            align-items: center; justify-content: center; gap: 10px;
+            cursor: grab; z-index: 999999;
+            border: 2px solid var(--fucsia-neon);
+            user-select: none; touch-action: none;
+            width: max-content; height: auto;
+            white-space: nowrap;
+        }
+        .floating-cart:active { cursor: grabbing; transform: scale(0.95); }
+        
+        .cart-badge { 
+            position: absolute; top: -8px; left: -5px;
+            background: #ff0000; color: white; 
+            width: 22px; height: 22px; 
+            border-radius: 50%; font-size: 11px; 
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; border: 2px solid var(--bg-dark);
+        }
+        .cart-info {
+            display: flex; flex-direction: column; text-align: left; line-height: 1.2;
+        }
+     /* Sistema Maestro de Ventanas Modales (Reparación Crítica) */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: var(--bg-dark); z-index: 100000;
+            display: none; /* Estrictamente oculto por defecto */
+            align-items: center; justify-content: center;
+        }
+        .modal-overlay.show { display: flex !important; animation: fadeIn 0.3s ease; }
+
+        #modal-producto-detalle { padding: 0; flex-direction: column; }
+        #modal-producto-detalle .modal-content { 
+            text-align: left; width: 100%; max-width: 100%; height: 100vh; padding: 0; margin: 0; 
+            border-radius: 0; border: none; overflow-y: auto; display: flex; flex-direction: column;
+            background: var(--bg-dark);
+        }
+
+        /* Modal de Términos y Condiciones */
+        #modal-terminos { display: none; }
+        #modal-terminos.show { display: flex; }
+        .btn-close-full {
+            position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.5); border: none; 
+            color: white; font-size: 1.5em; width: 40px; height: 40px; border-radius: 50%; 
+            cursor: pointer; z-index: 10000; display: flex; justify-content: center; align-items: center;
+        }
+        
+        /* Carrusel de Fotos */
+        .carrusel-container { position: relative; width: 100%; height: 60vh; background: #000; overflow: hidden; }
+        .carrusel-slide { width: 100%; height: 100%; object-fit: contain; display: none; }
+        .carrusel-slide.active { display: block; animation: fadeIn 0.4s; }
+        .carrusel-btn {
+            position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,0,127,0.7);
+            color: white; border: none; font-size: 1.5em; width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+        }
+        .carrusel-prev { left: 10px; } .carrusel-next { right: 10px; }
+        
+        .modal-body-info { padding: 25px; flex: 1; border-top-left-radius: 20px; border-top-right-radius: 20px; background: var(--bg-dark); margin-top: -20px; z-index: 5; position: relative; }
+        /* =========================================
+           OVERLAY DE CARGA (SPINNER)
+           ========================================= */
+        .loading-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 10, 15, 0.9);
+            border-radius: 20px;
+            display: none; /* Oculto por defecto */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+        }
+
+       /* Spinner Profesional Doble Anillo con Logo MS */
+        .spinner {
+            width: 55px; height: 55px;
+            border: 3px solid transparent;
+            border-top: 3px solid var(--fucsia-neon);
+            border-bottom: 3px solid var(--fucsia-neon);
+            border-radius: 50%;
+            animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .spinner::after {
+            content: "MS"; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); font-size: 16px;
+            font-weight: 900; color: var(--text-light); animation: pulse 1.5s infinite;
+        }
+
+        /* Botón Mágico de Autocompletado Gmail */
+        .btn-gmail-pill {
+            background: rgba(255, 0, 127, 0.1); border: 1px solid var(--fucsia-neon);
+            color: var(--text-light); border-radius: 12px; padding: 5px 10px;
+            font-size: 0.75em; cursor: pointer; font-weight: bold; position: absolute;
+            right: 8px; top: 13px; transition: 0.3s; z-index: 5;
+        }
+        .btn-gmail-pill:hover { background: var(--fucsia-neon); color: white; box-shadow: 0 0 10px var(--fucsia-glow); }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: var(--fucsia-neon);
+            font-size: 1.2em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--fucsia-glow); }
+            50% { opacity: 0.5; text-shadow: none; }
+        }
+
+        .success-icon {
+            display: none;
+            font-size: 4em;
+            color: #00ff88;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+            margin-bottom: 15px;
+            animation: scaleUp 0.5s ease-out;
+        }
+
+        @keyframes scaleUp {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+/* =========================================
+           PANEL DE USUARIO Y DASHBOARD (GLASSMORPHISM)
+           ========================================= */
+        #dashboard-section {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            color: white;
+            position: relative;
+            z-index: 5;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Menú Lateral */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0; top: 0;
+            padding: 30px 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .sidebar-logo span { color: var(--fucsia-neon); text-shadow: 0 0 10px var(--fucsia-glow); }
+
+        .nav-links { flex: 1; display: flex; flex-direction: column; }
+
+        .nav-btn {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 15px;
+            text-align: left;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: rgba(255, 0, 127, 0.1);
+            color: var(--text-light);
+            box-shadow: inset 4px 0 0 var(--fucsia-neon);
+        }
+
+        .btn-logout {
+            width: 100%; padding: 15px; background: transparent; border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-light); border-radius: 8px; cursor: pointer; transition: 0.3s;
+        }
+
+        .btn-logout:hover { background: rgba(255, 0, 0, 0.2); border-color: red; }
+
+        /* Área de Contenido */
+        .content {
+            margin-left: 250px; /* Deja espacio para el menú */
+            padding: 20px 40px;
+            box-sizing: border-box;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .top-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 25px; border-radius: 12px; margin-bottom: 30px;
+        }
+
+        .rate-badge { color: var(--fucsia-neon); font-weight: bold; }
+
+        .section-title { font-size: 2em; margin-bottom: 20px; text-align: left; }
+        .section-title span { color: var(--fucsia-neon); text-shadow: 0 0 10px var(--fucsia-glow); }
+
+        .glass-card {
+            background: var(--glass-bg); backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border); padding: 30px;
+            border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: left; margin-bottom: 20px;
+        }
+
+        .text-fucsia { color: var(--fucsia-neon); font-weight: bold; }
+        .text-muted { color: var(--text-muted); }
+
+        /* Pestañas */
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .active-tab { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Pedidos */
+        .order-header { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 1.1em; }
+        .status-badge { background: rgba(255, 0, 127, 0.2); padding: 5px 12px; border-radius: 20px; color: var(--fucsia-neon); border: 1px solid var(--fucsia-neon); }
+        .pulse-anim { animation: pulseBadge 2s infinite; }
+        @keyframes pulseBadge { 0% { box-shadow: 0 0 0 0 rgba(255, 0, 127, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 0, 127, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 0, 127, 0); } }
+        .progress-bar { background: rgba(255, 255, 255, 0.1); height: 8px; border-radius: 4px; overflow: hidden; }
+        .progress { background: var(--fucsia-neon); height: 100%; box-shadow: 0 0 10px var(--fucsia-glow); }
+/* =========================================
+           TARJETAS DE PRODUCTOS (CATÁLOGO)
+           ========================================= */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .product-card {
+            border-radius: 15px;
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.4s, box-shadow 0.4s;
+            display: flex;
+            flex-direction: column;
+        }
+
+       .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(255, 0, 127, 0.2);
+        }
+
+        /* Menú de Categorías Estilo Temu/Shein */
+        .category-nav {
+            display: flex; gap: 10px; overflow-x: auto; padding: 10px 0;
+            scrollbar-width: none; /* Oculta scrollbar en Firefox */
+        }
+        .category-nav::-webkit-scrollbar { display: none; } /* Oculta scrollbar Chrome/Safari */
+        
+        .cat-btn {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border);
+            color: var(--text-light); padding: 8px 18px; border-radius: 20px;
+            font-size: 0.9em; font-weight: bold; cursor: pointer; white-space: nowrap;
+            transition: 0.3s;
+        }
+        .cat-btn:hover, .cat-btn.active {
+            background: var(--fucsia-neon); color: white; border-color: var(--fucsia-neon);
+            box-shadow: 0 0 15px var(--fucsia-glow);
+        }
+        
+        /* Botón Cámara */
+        .btn-camara {
+            background: transparent; border: 1px solid var(--fucsia-neon); color: var(--fucsia-neon);
+            font-size: 1.2em; padding: 10px; border-radius: 8px; cursor: pointer; transition: 0.3s;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .btn-camara:hover { background: var(--fucsia-neon); color: white; box-shadow: 0 0 15px var(--fucsia-glow); }
+
+        .product-img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .product-info {
+            padding: 20px 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-info h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.1em;
+            color: var(--text-light);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .price-usd {
+            color: var(--fucsia-neon);
+            font-weight: 800;
+            font-size: 1.4em;
+            margin: 5px 0;
+            text-shadow: 0 0 10px var(--fucsia-glow);
+        }
+
+        .price-ves {
+            color: var(--text-muted);
+            font-size: 0.9em;
+            margin: 0 0 15px 0;
+        }
+.btn-small {
+            padding: 12px;
+            font-size: 0.9em;
+            border-radius: 8px;
+            margin-top: auto;
+        }
+        
+        .neon-select {
+            width: 100%; padding: 15px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-muted); border-radius: 8px; font-size: 1em; outline: none; appearance: none;
+        }
+        .neon-select:focus { border-color: var(--fucsia-neon); box-shadow: 0 0 15px rgba(255, 0, 127, 0.4); }
+        .neon-select:focus { border-color: var(--fucsia-neon); box-shadow: 0 0 15px rgba(255, 0, 127, 0.4); }
+        
+        .file-label {
+            display: block; width: 100%; padding: 15px; background: rgba(255, 0, 127, 0.1);
+            border: 2px dashed var(--fucsia-neon); border-radius: 8px; text-align: center; cursor: pointer; transition: 0.3s; box-sizing: border-box;
+        }
+       .file-label:hover { background: rgba(255, 0, 127, 0.2); box-shadow: 0 0 15px rgba(255, 0, 127, 0.2); }
+
+        /* Notificación Push Neón */
+        .neon-toast {
+            position: fixed;
+            bottom: -100px; /* Oculta abajo de la pantalla */
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 10, 15, 0.9);
+            border: 1px solid var(--fucsia-neon);
+            box-shadow: 0 0 20px var(--fucsia-glow);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            z-index: 10000;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .neon-toast.show {
+            bottom: 30px; /* Se eleva con efecto resorte */
+            opacity: 1;
+        }
+        
+        @media (max-width: 600px) {
+            .neon-toast.show { bottom: 90px; } /* Arriba de la barra móvil */
+        }
+/* =========================================
+           ADAPTACIÓN A TELÉFONOS MÓVILES (RESPONSIVE)
+           ========================================= */
+        .form-row {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .form-row .input-group {
+            flex: 1;
+        }
+
+       @media (max-width: 600px) {
+            /* Login en Móviles */
+            .flip-card { min-height: auto; }
+            .flip-card-front, .flip-card-back { padding: 25px 20px; }
+            .form-row { flex-direction: column; gap: 0; }
+            .auth-title { font-size: 1.8em; }
+
+            /* Dashboard en Móviles: Menú tipo App de Teléfono */
+            .sidebar {
+                width: 100%; height: auto; position: relative; padding: 15px;
+                flex-direction: row; justify-content: space-between; align-items: center;
+                border-bottom: 1px solid var(--glass-border); z-index: 10;
+            }
+            
+            .sidebar-logo { margin-bottom: 0; font-size: 1.2em; }
+            .btn-logout { display: none; /* Se oculta el cerrar sesión aquí para ahorrar espacio */ }
+            
+            /* La barra de navegación se pega abajo en móviles */
+            .nav-links {
+                position: fixed; bottom: 0; left: 0; width: 100%; flex-direction: row;
+                background: var(--bg-dark); justify-content: space-around; padding: 10px 0;
+                border-top: 1px solid var(--fucsia-neon); z-index: 100;
+            }
+
+            .nav-btn {
+                margin: 0; padding: 10px; font-size: 0.8em; text-align: center; border-radius: 0;
+                box-shadow: none !important; display: flex; flex-direction: column; align-items: center;
+            }
+
+            .nav-btn:hover, .nav-btn.active {
+                background: transparent; color: var(--fucsia-neon);
+                border-bottom: 3px solid var(--fucsia-neon);
+            }
+
+            .content { margin-left: 0; padding: 15px; padding-bottom: 80px; /* Espacio para el menú inferior */ }
+            .top-header { flex-direction: column; gap: 10px; font-size: 0.9em; }
+            .section-title { font-size: 1.5em; text-align: center; }
+            .order-header { flex-direction: column; gap: 10px; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fondo Animado -->
+    <div class="animated-background">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <!-- Contenedor Principal de Autenticación -->
+    <div id="auth-wrapper">
+        <div class="flip-card" id="auth-card">
+            
+          <!-- CARA FRONTAL: INICIAR SESIÓN -->
+            <div class="flip-card-front">
+                <h1 class="auth-title" style="line-height: 1;">Mackenzie <span>Shein</span><br>
+                    <span style="font-size: 0.35em; color: var(--text-light); text-transform: uppercase; letter-spacing: 3px; display: block; margin-top: 10px;">Turén - Portuguesa</span>
+                </h1>
+                <p class="auth-subtitle" style="margin-bottom: 25px; font-weight: bold; color: var(--fucsia-neon);">Encargada: Tahbata Malaguera</p>
+                
+                <form onsubmit="procesarAccion(event, 'login')">
+                    <div class="input-group">
+                        <input type="email" id="login-email" placeholder="Correo Electrónico" required style="padding-right: 100px;">
+                        <button type="button" class="btn-gmail-pill" onclick="autocompletarGmail('login-email')" tabindex="-1">+ @gmail.com</button>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" placeholder="Contraseña" required>
+                    </div>
+                    <button type="submit" class="btn-neon">Iniciar Sesión</button>
+                </form>
+                
+                <div class="switch-link">
+                    ¿No tienes cuenta? <a onclick="girarTarjeta()">Regístrate aquí</a>
+                </div>
+
+                <div class="loading-overlay" id="loader-login">
+                    <div class="spinner" id="spin-login"></div>
+                    <div class="success-icon" id="success-login">✔️</div>
+                    <div class="loading-text" id="text-login">Iniciando sesión...</div>
+                </div>
+            </div>
+
+            <!-- CARA TRASERA: REGISTRO -->
+            <div class="flip-card-back">
+                <h1 class="auth-title" style="font-size: 1.8em;">Crear <span>Cuenta</span></h1>
+                <p class="auth-subtitle" style="margin-bottom: 20px;">Únete a Mackenzie Shein Turén</p>
+                
+                <form onsubmit="procesarAccion(event, 'registro')">
+                    <div class="form-row">
+                        <div class="input-group" style="margin-bottom: 15px;"><input type="text" placeholder="Nombre" required></div>
+                        <div class="input-group" style="margin-bottom: 15px;"><input type="text" placeholder="Apellido" required></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-group" style="margin-bottom: 15px;"><input type="text" placeholder="Cédula (V-)" required></div>
+                        <div class="input-group" style="margin-bottom: 15px;"><input type="tel" placeholder="Teléfono" required></div>
+                    </div>
+                    <div class="input-group" style="margin-bottom: 15px;">
+                        <input type="email" id="reg-email" placeholder="Correo Electrónico" required style="padding-right: 100px;">
+                        <button type="button" class="btn-gmail-pill" onclick="autocompletarGmail('reg-email')" tabindex="-1">+ @gmail.com</button>
+                    </div>
+                    <div class="input-group" style="margin-bottom: 15px;">
+                        <input type="password" placeholder="Crea una contraseña" required>
+                    </div>
+                    
+                    <!-- Casilla de Términos y Condiciones -->
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px; text-align: left;">
+                        <input type="checkbox" id="acepto-terminos" required style="width: 18px; height: 18px; accent-color: var(--fucsia-neon); cursor: pointer;">
+                        <label for="acepto-terminos" style="font-size: 0.85em; color: var(--text-light); cursor: pointer;">
+                            Acepto los <a onclick="abrirTerminos()" style="color: var(--fucsia-neon); text-decoration: underline;">Términos y Condiciones</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-neon">Registrarme</button>
+                </form>
+                
+                <div class="switch-link" style="margin-top: 15px;">
+                    ¿Ya tienes cuenta? <a onclick="girarTarjeta()">Inicia sesión</a>
+                </div>
+
+                <div class="loading-overlay" id="loader-registro">
+                    <div class="spinner" id="spin-registro"></div>
+                    <div class="success-icon" id="success-registro">✔️</div>
+                    <div class="loading-text" id="text-registro">Creando cuenta...</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+   <!-- PANEL DE USUARIO (DASHBOARD) -->
+    <div id="dashboard-section">
+        <!-- Menú Lateral (En móviles pasa abajo) -->
+        <nav class="sidebar glass-panel">
+            <div class="sidebar-logo">Mackenzie <span>Shein</span></div>
+           <div class="nav-links">
+                <button class="nav-btn active" onclick="cambiarPestana('perfil', this)">👤 Mi Perfil</button>
+                <button class="nav-btn" onclick="cambiarPestana('catalogo', this)">🛍️ Catálogo</button>
+                <button class="nav-btn" onclick="cambiarPestana('destacados', this)">🔥 Más Vendidos</button>
+                <button class="nav-btn" onclick="cambiarPestana('carrito', this)">🛒 Carrito</button>
+                <button class="nav-btn" onclick="cambiarPestana('pedidos', this)">📦 Mis Pedidos</button>
+              <button class="nav-btn" onclick="cambiarPestana('pagos', this)">💳 Reportar Pago</button>
+                <button class="nav-btn" onclick="toggleTema()" style="margin-top: 20px; border-top: 1px solid var(--glass-border); border-radius: 0;">🌓 Cambiar Tema</button>
+            </div>
+            <button class="btn-logout" onclick="cerrarSesion()">Cerrar Sesión</button>
+        </nav>
+
+       <!-- Icono Carrito Flotante (Pastilla con Precio y Suma) -->
+        <div class="floating-cart" id="floating-cart" onclick="cambiarPestana('carrito', document.querySelectorAll('.nav-btn')[3])">
+            <div style="position: relative; font-size: 1.8em; margin-right: 5px;">
+                🛒<span class="cart-badge" id="float-cart-count">0</span>
+            </div>
+            <div class="cart-info">
+                <span id="float-cart-total" style="color: var(--text-light); font-weight: bold; font-size: 1.1em;">$0.00</span>
+                <span id="float-cart-total-ves" style="color: var(--fucsia-neon); font-size: 0.85em;">0 Bs</span>
+            </div>
+        </div>
+
+        <!-- Contenedor de Notificaciones Push -->
+        <div id="neon-toast" class="neon-toast"></div>
+<!-- Ventana Modal de Producto PANTALLA COMPLETA -->
+        <div class="modal-overlay" id="modal-producto-detalle">
+            <div class="modal-content">
+                <button class="btn-close-full" onclick="cerrarModalProducto()">←</button>
+                
+                <div class="carrusel-container" id="carrusel-fotos">
+                    <!-- Las fotos se inyectan aquí -->
+                </div>
+                
+                <div class="modal-body-info">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <h2 id="detalle-precio" style="margin: 0; color: var(--text-light); font-size: 2em;">$0.00</h2>
+                        <span id="detalle-precio-ves" style="color: var(--text-muted); font-size: 0.9em; margin-top: 10px;">0.00 Bs</span>
+                    </div>
+                    <h3 id="detalle-titulo" style="color: var(--fucsia-neon); margin: 10px 0; font-size: 1.3em; line-height: 1.3;">Título</h3>
+                    <p id="detalle-desc" style="color: var(--text-muted); font-size: 0.9em; margin-bottom: 25px; line-height: 1.5;">Descripción</p>
+                    
+                    <h4 style="margin-bottom: 10px; color: var(--text-light);">Selecciona tu preferencia:</h4>
+                    <div style="display: flex; gap: 10px; margin-bottom: 25px;">
+                        <select id="detalle-talla" class="neon-select" style="padding: 12px; font-size: 1em; flex:1;"></select>
+                        <select id="detalle-color" class="neon-select" style="padding: 12px; font-size: 1em; flex:1;"></select>
+                    </div>
+                    
+                   <button class="btn-neon" id="btn-detalle-agregar" style="width: 100%; padding: 18px; font-size: 1.2em; border-radius: 12px;">Añadir al Carrito 🛒</button>
+                </div>
+            </div>
+        </div> 
+
+        <!-- Contenido Principal -->
+        <main class="content">
+          <!-- Cabecera Multimoneda Privada -->
+            <header class="top-header glass-panel">
+                <span id="current-date">📅 --/--/----</span>
+                <span class="rate-badge">💶 EUR: <span id="rate-eur">0.00</span> Bs</span>
+                <span class="rate-badge">💵 USD: <span id="rate-usd">0.00</span> Bs</span>
+            </header>
+           <!-- Pestaña: Perfil -->
+            <section id="perfil" class="tab-content active-tab">
+                <h2 class="section-title">Mi <span>Perfil</span></h2>
+                <div class="glass-card">
+                    <p><strong>Cliente:</strong> <span class="text-fucsia" id="perfil-nombre">Cargando...</span></p>
+                    <p><strong>Cédula:</strong> <span id="perfil-cedula">Cargando...</span></p>
+                    <p><strong>Teléfono:</strong> <span id="perfil-telefono">Cargando...</span></p>
+                    <p><strong>Total Comprado:</strong> $<span id="perfil-total">0.00</span></p>
+                </div>
+            </section>
+           <!-- Pestaña: Pedidos -->
+            <section id="pedidos" class="tab-content">
+                <h2 class="section-title">Seguimiento de <span>Pedidos</span></h2>
+                <div id="lista-mis-pedidos">
+                    <div class="glass-card"><p class="text-muted">⏳ Sincronizando tus pedidos...</p></div>
+                </div>
+            </section>
+
+            <!-- Pestaña: Pagos -->
+            <section id="pagos" class="tab-content">
+                <h2 class="section-title">Subir <span>Comprobante</span></h2>
+                <div class="glass-card" style="max-width: 500px; margin: 0 auto;">
+                    <form onsubmit="subirComprobante(event)">
+                        <div class="input-group">
+                            <input type="text" placeholder="ID del Pedido (Ej: MS-1024)" required>
+                        </div>
+                        <div class="input-group">
+                            <select class="neon-select" required>
+                                <option value="" disabled selected>Selecciona el tipo de abono...</option>
+                                <option value="50_inicial">Anticipo 50% (Para encargar)</option>
+                                <option value="50_final">Liquidación 50% (Para entrega)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label class="file-label">
+                                📸 Subir Captura (Transferencia/Pago Móvil)
+                                <input type="file" accept="image/*" required style="display: none;" onchange="actualizarNombreArchivo(this)">
+                            </label>
+                            <p id="file-name" class="text-muted" style="margin-top: 10px; text-align: center; font-size: 0.85em;"></p>
+                        </div>
+                       <button type="submit" class="btn-neon">Enviar a Verificación</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- =========================================
+                 NUEVAS PESTAÑAS DE LA TIENDA
+                 ========================================= -->
+          
+<!-- Pestaña: Catálogo de Shein -->
+            <section id="catalogo" class="tab-content">
+                <h2 class="section-title">Catálogo <span>Shein</span></h2>
+                
+                <!-- Buscador Visual y de Texto -->
+                <div class="glass-card" style="margin-bottom: 20px; padding: 15px;">
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <input type="text" id="buscador-codigo" class="neon-select" placeholder="🔍 Buscar prendas, códigos o links..." style="flex: 1;">
+                        
+                        <!-- BOTÓN DE BÚSQUEDA VISUAL (CÁMARA) -->
+                        <label class="btn-camara" title="Búsqueda por Foto">
+                            📷
+                            <input type="file" accept="image/*" style="display: none;" onchange="buscarPrendaPorImagen(this)">
+                        </label>
+                        
+                        <button class="btn-neon" style="width: 100px;">Buscar</button>
+                    </div>
+
+                    <!-- Menú de Categorías (Scroll Horizontal) -->
+                    <div class="category-nav" id="menu-categorias">
+                        <button class="cat-btn active" onclick="filtrarCategoria('Todas', this)">🔥 Todas</button>
+                        <button class="cat-btn" onclick="filtrarCategoria('Damas', this)">👗 Damas</button>
+                        <button class="cat-btn" onclick="filtrarCategoria('Caballeros', this)">👔 Caballeros</button>
+                        <button class="cat-btn" onclick="filtrarCategoria('Niños', this)">🧸 Niños</button>
+                        <button class="cat-btn" onclick="filtrarCategoria('Hogar', this)">🏡 Hogar</button>
+                        <button class="cat-btn" onclick="filtrarCategoria('Accesorios', this)">💍 Accesorios</button>
+                    </div>
+                </div>
+                
+                <div class="product-grid" id="grid-catalogo">
+                    <div class="glass-card" style="width: 100%; text-align: center;">
+                        <p class="text-muted">⏳ Cargando catálogo en tiempo real...</p>
+                    </div>
+                </div>
+                
+                <!-- ✅ Botón de Cargar Más (Para evitar consumo masivo de Firebase) -->
+                <div style="text-align: center; margin-top: 30px;">
+                    <button id="btn-cargar-mas" class="btn-neon" style="display:none; width: auto; padding: 10px 30px;" onclick="cargarMasProductos()">Ver Más Prendas 👇</button>
+                </div>
+            </section>
+
+            <!-- Pestaña: Más Comprados -->
+            <section id="destacados" class="tab-content">
+                <h2 class="section-title">Lo Más <span>Comprado</span></h2>
+                <div class="product-grid" id="grid-destacados">
+                    <!-- Los productos destacados se inyectarán aquí por JavaScript -->
+                    <p class="text-muted">Cargando tendencias...</p>
+                </div>
+            </section>
+
+           <!-- Pestaña: Carrito -->
+            <section id="carrito" class="tab-content">
+                <h2 class="section-title">Tu <span>Carrito</span></h2>
+                <div class="glass-card" id="carrito-contenedor">
+                    <p class="text-muted">🛒 Tu carrito está vacío. ¡Explora el catálogo!</p>
+                </div>
+                <!-- Paginación Carrito -->
+                <div class="pagination" id="paginacion-carrito" style="display: none; justify-content: center; margin-bottom: 20px;"></div>
+
+                <div class="glass-card" style="display: none; text-align: right;" id="resumen-carrito">
+                    <h3>Total de la compra: <span class="text-fucsia" id="carrito-total-usd">$0.00</span></h3>
+                    
+                    <div style="background: rgba(255, 0, 127, 0.1); padding: 15px; border-radius: 8px; display: inline-block; margin-top: 10px; border: 1px solid var(--fucsia-neon); text-align: left; width: 100%; max-width: 400px;">
+                        <label style="font-weight: bold; color: var(--text-light); display: block; margin-bottom: 10px;">¿Cuánto deseas abonar hoy?</label>
+                        <select id="porcentaje-pago" class="neon-select" style="width: 100%; margin-bottom: 15px;" onchange="actualizarCarritoUI()">
+                            <option value="0.5">50% (Abono mínimo para encargar)</option>
+                            <option value="0.6">60%</option>
+                            <option value="0.7">70%</option>
+                            <option value="0.8">80%</option>
+                            <option value="0.9">90%</option>
+                            <option value="1.0">100% (Pago Completo)</option>
+                        </select>
+
+                      <h2 style="margin: 5px 0; color: var(--fucsia-neon); text-shadow: 0 0 10px var(--fucsia-glow);"><span id="carrito-abono-usd">$0.00</span> USD</h2>
+                        <p style="margin: 0 0 15px 0; color: var(--text-muted); font-size: 0.9em;">A transferir: <strong style="color: #00ff88;">Bs <span id="carrito-abono-ves">0.00</span></strong> (Tasa EUR)</p>
+                        
+                        <div style="background: rgba(0,0,0,0.5); padding: 10px; border-radius: 5px; border: 1px dashed #00ff88; font-size: 0.9em;">
+                            <p style="margin: 0 0 5px 0; color: #00ff88; font-weight: bold;">🏦 Datos Banco de Venezuela (0102):</p>
+                            <p style="margin: 2px 0;"><strong>Cédula:</strong> V-27.145.645</p>
+                            <p style="margin: 2px 0;"><strong>Teléfono:</strong> 0426-2333684</p>
+                        </div>
+                    </div>
+                    <br>
+                    <button class="btn-neon btn-success" style="margin-top: 20px;" onclick="generarFacturaYPagar()">Generar Factura y Pagar</button>
+                </div>
+
+                <!-- Formulario de Pago Oculto -->
+                <div class="glass-card" id="formulario-pago-carrito" style="display: none; margin-top: 20px; text-align: left; border-color: #00ff88;">
+                    <h3 style="color: #00ff88; margin-top: 0;">Sube tu comprobante de Pago</h3>
+                    <p style="font-size: 0.9em; color: var(--text-muted);">Realiza el pago del 50% y registra la referencia de 6 dígitos junto con tu Capture.</p>
+                    <div class="input-group">
+                        <input type="number" id="pago-referencia" placeholder="Últimos 6 dígitos de la referencia" required style="border-color: #00ff88;">
+                    </div>
+                    <div class="input-group">
+                        <label class="file-label" style="border-color: #00ff88; color: #00ff88;">
+                            📸 Adjuntar Capture de Pago
+                            <input type="file" id="pago-imagen" accept="image/*" style="display: none;" onchange="actualizarNombreArchivoPago(this)">
+                        </label>
+                        <p id="file-name-pago" class="text-muted" style="margin-top: 10px; text-align: center; font-size: 0.85em;"></p>
+                    </div>
+                    <button class="btn-neon" style="width: 100%; background: #00ff88; color: black;" onclick="procesarPedidoFinal()">Finalizar Pedido y Enviar a Verificación</button>
+                </div>
+            </section>
+
+       </main>
+    </div>
+
+   <!-- MODAL DE TÉRMINOS, POLÍTICAS Y PRIVACIDAD (CENTRADOS) -->
+    <div id="modal-terminos" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 999999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+        <div class="glass-panel" style="max-width: 450px; width: 90%; padding: 30px; text-align: left; position: relative; border-radius: 15px; border: 1px solid var(--fucsia-neon); box-shadow: 0 0 30px var(--fucsia-glow); max-height: 85vh; display: flex; flex-direction: column;">
+            <button style="position: absolute; top: 15px; right: 15px; background: transparent; border: none; color: white; font-size: 1.5em; cursor: pointer;" onclick="document.getElementById('modal-terminos').style.display='none'">✖</button>
+            
+            <h2 style="color: var(--fucsia-neon); margin-top: 0; font-size: 1.3em; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">📜 Términos y Políticas (Estricto)</h2>
+            
+            <div style="font-size: 0.9em; color: var(--text-light); line-height: 1.5; overflow-y: auto; padding-right: 10px;">
+                <p>Al registrarse en <strong>Mackenzie Shein Turén</strong> (Encargada: Tahbata Malaguera), acepta las siguientes condiciones:</p>
+                <ol style="padding-left: 15px; color: var(--text-muted);">
+                    <li style="margin-bottom: 10px;"><strong style="color:#ff3333;">NO HAY DEVOLUCIONES NI REEMBOLSOS:</strong> El abono inicial (50% o más) se utiliza inmediatamente para el pago de mercancía internacional y gestión logística. <strong>Bajo ninguna circunstancia se devolverá el dinero</strong> si el cliente desiste de la compra, ya que ese capital se ejecuta en gastos operativos e impuestos de aduana.</li>
+                    <li style="margin-bottom: 10px;"><strong style="color:white;">Garantía y Tallas:</strong> Somos gestores de importación, no fabricantes. No cubrimos garantías por defectos de fábrica provenientes de Shein, ni aceptamos reclamos por equivocaciones del cliente al elegir su talla o color.</li>
+                    <li style="margin-bottom: 10px;"><strong style="color:white;">Tasa Binance/USDT:</strong> Todos los abonos y liquidaciones en Bolívares se calculan a la tasa paralela (Euro/Binance USDT) del momento exacto del pago.</li>
+                    <li style="margin-bottom: 10px;"><strong style="color:white;">Tiempos de Entrega:</strong> Estimamos de 15 a 20 días hábiles. Estos tiempos dependen de factores externos como aduanas y Zoom Casillero, por lo que no nos hacemos responsables por retrasos logísticos internacionales.</li>
+                    <li style="margin-bottom: 10px;"><strong style="color:white;">Políticas de Privacidad:</strong> Su información personal, cédula y comprobantes bancarios están cifrados y solo se usan para fines de facturación y entrega segura.</li>
+                </ol>
+            </div>
+            <button class="btn-neon" style="margin-top: 20px; flex-shrink: 0;" onclick="document.getElementById('modal-terminos').style.display='none'">He leído y Acepto las Condiciones</button>
+        </div>
+    </div>
+   <!-- =========================================
+         CONEXIÓN A FIREBASE (BACKEND)
+         ========================================= -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // PEGA AQUÍ LA CONFIGURACIÓN QUE TE DIO FIREBASE EN EL PASO 1
+        const firebaseConfig = {
+  apiKey: "AIzaSyCGhWnU1Ql0ZN1q_6rVAWwdNa2SAjN498Q",
+  authDomain: "mackenzie-shein.firebaseapp.com",
+  projectId: "mackenzie-shein",
+  storageBucket: "mackenzie-shein.firebasestorage.app",
+  messagingSenderId: "154156289995",
+  appId: "1:154156289995:web:48938d030fd601ec47304e"
+};
+
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        
+        // Exportar a la ventana global para poder usarlo en las funciones de abajo
+        window.auth = getAuth(app);
+        window.db = getFirestore(app);
+        window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+        window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+      window.doc = doc;
+        window.setDoc = setDoc;
+        window.getDoc = getDoc;
+        window.collection = collection;
+        window.getDocs = getDocs;
+        window.addDoc = addDoc;
+    </script>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Función para girar la tarjeta 3D
+        function girarTarjeta() {
+            const card = document.getElementById('auth-card');
+            card.classList.toggle('flipped');
+        }
+
+        // Función que procesa el formulario y conecta con Firebase REAL
+        async function procesarAccion(e, tipo) {
+            e.preventDefault();
+
+            const overlay = document.getElementById(`loader-${tipo}`);
+            const spinner = document.getElementById(`spin-${tipo}`);
+            const successIcon = document.getElementById(`success-${tipo}`);
+            const textEl = document.getElementById(`text-${tipo}`);
+
+            // Mostrar pantalla de carga interactiva
+            overlay.style.display = 'flex';
+            spinner.style.display = 'block';
+            successIcon.style.display = 'none';
+            textEl.style.color = "var(--fucsia-neon)";
+
+           try {
+                if (tipo === 'registro') {
+                    textEl.innerText = "Creando cuenta en Firebase...";
+                    
+                    // 🔥 CORRECCIÓN: Filtramos estrictamente los 'input' para ignorar los botones nuevos
+                    const inputs = e.target.querySelectorAll('input');
+                    const nombre = inputs[0].value;
+                    const apellido = inputs[1].value;
+                    const cedula = inputs[2].value;
+                    const telefono = inputs[3].value;
+                    const correo = inputs[4].value;
+                    const password = inputs[5].value;
+
+                    // 1. Crear el correo y contraseña en Authentication
+                    const userCredential = await window.createUserWithEmailAndPassword(window.auth, correo, password);
+                    const user = userCredential.user;
+
+                    textEl.innerText = "Guardando perfil...";
+
+                    // 2. Guardar Cédula, Nombre y Teléfono en la base de datos Firestore
+                    await window.setDoc(window.doc(window.db, "Usuarios", user.uid), {
+                        nombre: nombre,
+                        apellido: apellido,
+                        cedula: cedula,
+                        telefono: telefono,
+                        correo: correo,
+                        rol: "cliente",
+                        fecha_registro: new Date().toISOString()
+                    });
+
+                } else if (tipo === 'login') {
+                    textEl.innerText = "Verificando credenciales...";
+                    
+                    // 🔥 CORRECCIÓN: Filtramos los 'input' para que no choque con el botón de Gmail
+                    const inputs = e.target.querySelectorAll('input');
+                    const correo = inputs[0].value;
+                    const password = inputs[1].value;
+
+                    // 1. Validar el usuario
+                    await window.signInWithEmailAndPassword(window.auth, correo, password);
+                }
+
+               // === LEER LOS DATOS DESDE FIRESTORE ===
+                const user = window.auth.currentUser;
+                if (user) {
+                    const docSnap = await window.getDoc(window.doc(window.db, "Usuarios", user.uid));
+                    if (docSnap.exists()) {
+                        const datos = docSnap.data();
+                        // Inyectar los datos reales en el HTML del Perfil
+                        document.getElementById('perfil-nombre').innerText = datos.nombre + " " + datos.apellido;
+                        document.getElementById('perfil-cedula').innerText = datos.cedula;
+                        document.getElementById('perfil-telefono').innerText = datos.telefono;
+                    }
+                }
+
+                // SI TODO SALIÓ BIEN: Pantalla de Éxito
+                spinner.style.display = 'none';
+                successIcon.style.display = 'block';
+                successIcon.innerText = "✔️";
+                textEl.style.color = "#00ff88";
+                textEl.style.textShadow = "0 0 10px rgba(0, 255, 136, 0.5)";
+                textEl.innerText = tipo === 'login' ? "¡Inicio Exitoso!" : "¡Registro Exitoso!";
+                
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    e.target.reset(); // Limpia los campos
+                    entrarAlDashboard();
+                }, 1500);
+
+            } catch (error) {
+                // SI HUBO UN ERROR (Ej. Contraseña corta, correo existente)
+                spinner.style.display = 'none';
+                successIcon.style.display = 'block';
+                successIcon.innerText = "❌";
+                textEl.style.color = "#ff3333";
+                textEl.style.textShadow = "0 0 10px rgba(255, 0, 0, 0.5)";
+                
+                // Traducir errores de Firebase al español
+                if(error.code === 'auth/email-already-in-use') textEl.innerText = "El correo ya está registrado";
+                else if(error.code === 'auth/invalid-credential') textEl.innerText = "Correo o contraseña incorrectos";
+                else if(error.code === 'auth/weak-password') textEl.innerText = "La contraseña debe tener al menos 6 letras";
+                else textEl.innerText = "Error de conexión";
+
+                // Ocultar mensaje de error después de 3 segundos para que intenten de nuevo
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+     // =========================================
+        // TASAS REALES CON RESPALDO (API + LOCALSTORAGE)
+        // =========================================
+        let TASA_EUR = 0; 
+        let TASA_USD = 0; 
+
+        async function actualizarTasasReales() {
+            const ahora = new Date();
+            const fechaUltimaStr = localStorage.getItem('mackenzie_tasa_fecha');
+            const tasasGuardadas = JSON.parse(localStorage.getItem('mackenzie_tasas'));
+            
+            let necesitaActualizar = true;
+
+            // LÓGICA ESTRICTA DE LAS 2:00 PM
+            if (tasasGuardadas && fechaUltimaStr) {
+                const fechaUltima = new Date(fechaUltimaStr);
+                const hoyALas2PM = new Date();
+                hoyALas2PM.setHours(14, 0, 0, 0); // 2:00 PM de hoy
+
+                // Si ya pasamos las 2 PM hoy, y la última actualización fue DESPUÉS de las 2 PM, no actualizamos
+                if (ahora >= hoyALas2PM && fechaUltima >= hoyALas2PM) {
+                    necesitaActualizar = false;
+                } 
+                // Si es antes de las 2 PM hoy, y actualizamos después de las 2 PM de AYER, tampoco actualizamos
+                else if (ahora < hoyALas2PM && (ahora - fechaUltima) < (24 * 60 * 60 * 1000) && fechaUltima.getHours() >= 14) {
+                    necesitaActualizar = false;
+                }
+            }
+
+            if (necesitaActualizar) {
+                try {
+                    // Consumimos API pública de divisas (ExchangeRate-API)
+                    const resUSD = await fetch('https://open.er-api.com/v6/latest/USD');
+                    const dataUSD = await resUSD.json();
+                    
+                    const resEUR = await fetch('https://open.er-api.com/v6/latest/EUR');
+                    const dataEUR = await resEUR.json();
+
+                    TASA_USD = dataUSD.rates.VES;
+                    TASA_EUR = dataEUR.rates.VES;
+
+                    // Guardar en la memoria del teléfono para el sistema Anti-Fallas
+                    localStorage.setItem('mackenzie_tasas', JSON.stringify({ usd: TASA_USD, eur: TASA_EUR }));
+                    localStorage.setItem('mackenzie_tasa_fecha', ahora.toISOString());
+                    console.log("Tasas actualizadas desde la API");
+                } catch (error) {
+                    // SISTEMA "SIN FALLAS": Si no hay internet o cae la API, usamos caché
+                    console.warn("Usando tasas de respaldo por fallo de red.");
+                    if (tasasGuardadas) {
+                        TASA_USD = tasasGuardadas.usd;
+                        TASA_EUR = tasasGuardadas.eur;
+                    } else {
+                        // Valores de emergencia si entra por primera vez sin internet
+                        TASA_USD = 42.15; 
+                        TASA_EUR = 45.80;
+                    }
+                }
+            } else {
+                // Cargar desde la memoria si aún no son las 2 PM
+                TASA_USD = tasasGuardadas.usd;
+                TASA_EUR = tasasGuardadas.eur;
+                console.log("Usando tasas guardadas en caché (Local Storage)");
+            }
+        }
+        // =========================================
+        // LÓGICA DEL CARRITO, TEMA Y NOTIFICACIONES
+        // =========================================
+        let carrito = JSON.parse(localStorage.getItem('mackenzie_carrito')) || [];
+
+        // Función de Tema Claro / Oscuro
+        function toggleTema() {
+            document.body.classList.toggle('light-theme');
+            const esClaro = document.body.classList.contains('light-theme');
+            localStorage.setItem('mackenzie_tema', esClaro ? 'claro' : 'oscuro');
+            mostrarNotificacion(esClaro ? '☀️ Tema Claro Activado' : '🌙 Tema Oscuro Activado');
+        }
+
+        // Función de Notificación Elegante
+        function mostrarNotificacion(mensaje) {
+            const toast = document.getElementById('neon-toast');
+            toast.innerHTML = `✨ <span>${mensaje}</span>`;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function guardarCarrito() {
+            localStorage.setItem('mackenzie_carrito', JSON.stringify(carrito));
+        }
+
+      // =========================================
+        // CARRUSEL PANTALLA COMPLETA
+        // =========================================
+        let indiceFotoActual = 0;
+        let galeriaActual = [];
+
+        window.abrirModalProducto = function(idProd) {
+            const item = window.productosGlobales[idProd];
+            if(!item) return;
+
+            galeriaActual = item.galeria;
+            indiceFotoActual = 0;
+            renderizarCarrusel();
+
+            document.getElementById('detalle-titulo').innerText = item.titulo;
+            document.getElementById('detalle-desc').innerText = item.descripcion;
+            document.getElementById('detalle-precio').innerText = `$${item.precio.toFixed(2)}`;
+            document.getElementById('detalle-precio-ves').innerText = `Aprox. ${(item.precio * TASA_USD).toFixed(2)} Bs`;
+            
+            document.getElementById('detalle-talla').innerHTML = item.tallasHtml;
+            document.getElementById('detalle-color').innerHTML = item.coloresHtml;
+
+            document.getElementById('btn-detalle-agregar').onclick = () => {
+                agregarAlCarrito(item.titulo, item.precio, 'detalle-talla', 'detalle-color', galeriaActual[0]);
+            };
+            document.getElementById('modal-producto-detalle').classList.add('show');
+        };
+
+        window.cerrarModalProducto = function() {
+            document.getElementById('modal-producto-detalle').classList.remove('show');
+        };
+
+        window.cambiarFoto = function(direccion) {
+            indiceFotoActual += direccion;
+            if(indiceFotoActual < 0) indiceFotoActual = galeriaActual.length - 1;
+            if(indiceFotoActual >= galeriaActual.length) indiceFotoActual = 0;
+            renderizarCarrusel();
+        };
+
+        function renderizarCarrusel() {
+            const contenedor = document.getElementById('carrusel-fotos');
+            let html = `<img src="${galeriaActual[indiceFotoActual]}" class="carrusel-slide active">`;
+            
+            // Solo muestra flechas si hay más de 1 foto
+            if(galeriaActual.length > 1) {
+                html += `
+                    <button class="carrusel-btn carrusel-prev" onclick="cambiarFoto(-1)">❮</button>
+                    <button class="carrusel-btn carrusel-next" onclick="cambiarFoto(1)">❯</button>
+                    <div style="position:absolute; bottom:10px; right:10px; background:rgba(0,0,0,0.6); color:white; padding:2px 8px; border-radius:10px; font-size:0.8em;">
+                        ${indiceFotoActual + 1} / ${galeriaActual.length}
+                    </div>
+                `;
+            }
+            contenedor.innerHTML = html;
+        }
+
+        // =========================================
+        // LÓGICA DE CARRITO Y PAGINACIÓN
+        // =========================================
+        function agregarAlCarrito(nombre, precio, idTalla, idColor, imgUrl) {
+            const talla = document.getElementById(idTalla).value;
+            const color = document.getElementById(idColor).value;
+            const idProducto = `${nombre}-${talla}-${color}`;
+            const itemExistente = carrito.find(item => item.id === idProducto);
+            
+            if (itemExistente) itemExistente.cantidad++;
+            else carrito.push({ id: idProducto, nombre: nombre, precio: precio, talla: talla, color: color, cantidad: 1, imagen: imgUrl });
+            
+            guardarCarrito();
+            actualizarCarritoUI();
+            cerrarModalProducto();
+            mostrarNotificacion(`🛒 Añadido: ${nombre} (${talla} / ${color})`);
+        }
+
+        window.eliminarDelCarrito = function(index) {
+            carrito.splice(index, 1);
+            guardarCarrito();
+            actualizarCarritoUI();
+        }
+
+        let paginaActualCarrito = 1;
+        const ITEMS_CARRITO = 20;
+
+        window.cambiarPaginaCarrito = function(pagina) {
+            paginaActualCarrito = pagina;
+            actualizarCarritoUI();
+        };
+
+       window.actualizarCarritoUI = function() {
+            const contenedor = document.getElementById('carrito-contenedor');
+            const resumen = document.getElementById('resumen-carrito');
+            const paginador = document.getElementById('paginacion-carrito');
+            const floatCart = document.getElementById('floating-cart');
+
+            let totalArt = 0; let totalUSD = 0;
+            carrito.forEach(item => { totalArt += item.cantidad; totalUSD += (item.precio * item.cantidad); });
+            const totalVES = totalUSD * TASA_EUR; // Tasa Binance
+
+            // Actualizar número rojo y Mostrar icono SOLO en el Catálogo
+            if(document.getElementById('float-cart-count')) document.getElementById('float-cart-count').innerText = totalArt;
+            if(document.getElementById('float-cart-total')) document.getElementById('float-cart-total').innerText = `$${totalUSD.toFixed(2)}`;
+            if(document.getElementById('float-cart-total-ves')) document.getElementById('float-cart-total-ves').innerText = `(${totalVES.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Bs)`;
+            
+            const pestañaActiva = document.querySelector('.active-tab');
+            if(totalArt > 0 && pestañaActiva && pestañaActiva.id === 'catalogo') {
+                floatCart.style.display = 'flex';
+            } else {
+                floatCart.style.display = 'none';
+            }
+
+            if (carrito.length === 0) {
+                contenedor.innerHTML = '<p class="text-muted">🛒 Tu carrito está vacío.</p>';
+                resumen.style.display = 'none'; paginador.style.display = 'none'; return;
+            }
+
+            const inicio = (paginaActualCarrito - 1) * ITEMS_CARRITO;
+            const itemsPagina = carrito.slice(inicio, inicio + ITEMS_CARRITO);
+            
+            let html = '';
+            itemsPagina.forEach((item, idxLocal) => {
+                const idxReal = inicio + idxLocal;
+                const img = item.imagen || "https://via.placeholder.com/60";
+                html += `
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding: 15px 0; gap: 10px;">
+                        <img src="${img}" style="width: 50px; height: 65px; object-fit: cover; border-radius: 6px; border: 1px solid var(--fucsia-neon);">
+                        <div style="text-align: left; flex: 1;">
+                            <h4 style="margin: 0; color: var(--text-light); font-size: 1em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;">${item.nombre}</h4>
+                            <p style="margin: 2px 0; color: var(--text-muted); font-size: 0.8em;">Talla: <strong>${item.talla}</strong> | Color: <strong>${item.color}</strong></p>
+                            <p style="margin: 5px 0 0 0; color: var(--fucsia-neon); font-weight: bold;">$${item.precio.toFixed(2)} <span style="font-size: 0.8em; color: var(--text-muted);">x ${item.cantidad}</span></p>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px;">
+                            <span style="font-weight: bold;">$${(item.precio * item.cantidad).toFixed(2)}</span>
+                            <button onclick="eliminarDelCarrito(${idxReal})" style="background: rgba(255,51,51,0.2); color: #ff3333; border: 1px solid #ff3333; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8em;">X</button>
+                        </div>
+                    </div>`;
+            });
+            contenedor.innerHTML = html;
+
+            if(carrito.length > ITEMS_CARRITO) {
+                let pHTML = '';
+                for(let p=1; p<=Math.ceil(carrito.length/ITEMS_CARRITO); p++) {
+                    pHTML += `<button class="page-btn ${p===paginaActualCarrito?'active':''}" onclick="cambiarPaginaCarrito(${p})">${p}</button>`;
+                }
+                paginador.innerHTML = pHTML; paginador.style.display = 'flex';
+            } else paginador.style.display = 'none';
+            
+            // Lógica de Abono Múltiple
+            const selectPorcentaje = document.getElementById('porcentaje-pago');
+            const porcentaje = parseFloat(selectPorcentaje ? selectPorcentaje.value : 0.5) || 0.5;
+            const abonoUSD = totalUSD * porcentaje; 
+            const abonoVES = abonoUSD * TASA_EUR; 
+
+            if(document.getElementById('carrito-total-usd')) document.getElementById('carrito-total-usd').innerText = `$${totalUSD.toFixed(2)}`;
+            if(document.getElementById('carrito-abono-usd')) document.getElementById('carrito-abono-usd').innerText = abonoUSD.toFixed(2);
+            if(document.getElementById('carrito-abono-ves')) document.getElementById('carrito-abono-ves').innerText = abonoVES.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            resumen.style.display = 'block';
+        };
+
+        window.generarFacturaYPagar = function() {
+            mostrarNotificacion("🧾 Generando factura con tasa del Euro...");
+            setTimeout(() => {
+                document.querySelectorAll('.nav-btn')[5].click(); // Redirige a "Reportar Pago"
+                window.abrirFormularioPago(); 
+            }, 800);
+        };
+
+        // Inicialización al cargar la página
+        document.addEventListener('DOMContentLoaded', async () => {
+            const fecha = new Date();
+            const opciones = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            document.getElementById('current-date').innerText = `📅 ${fecha.toLocaleDateString('es-VE', opciones)}`;
+            
+            // 1. Ejecutar el Agente de Tasas Reales antes de pintar cualquier precio
+            await actualizarTasasReales();
+            
+            // 2. Mostrar tasas del día en la cabecera
+            document.getElementById('rate-eur').innerText = TASA_EUR.toFixed(2);
+            document.getElementById('rate-usd').innerText = TASA_USD.toFixed(2);
+            
+            // 3. Calcular precio en Bolívares del vestido de catálogo
+            document.getElementById('precio-ves-vestido1').innerText = `Aprox. ${(25 * TASA_USD).toFixed(2)} Bs`;
+
+            // 4. Aplicar tema guardado
+            if (localStorage.getItem('mackenzie_tema') === 'claro') {
+                document.body.classList.add('light-theme');
+            }
+
+          // 5. Dibujar el carrito 
+            actualizarCarritoUI();
+        });
+
+        // =========================================
+        // CARGAR CATÁLOGO REAL DESDE FIREBASE
+        // =========================================
+        async function cargarCatalogo() {
+            try {
+                const querySnapshot = await window.getDocs(window.collection(window.db, "Productos"));
+                let html = '';
+                querySnapshot.forEach((docSnap) => {
+                    const item = docSnap.data();
+                    if (item.estado === "Agotada") return; 
+
+                    const idProd = docSnap.id;
+                    const precioUSD = item.precio || item.precio_mackenzie || item.precio_shein_oculto || 0;
+                    const precioBs = (precioUSD * TASA_USD).toFixed(2);
+                    
+                    const imagen = item.imagen || (item.imagenes && item.imagenes[0]) || "https://via.placeholder.com/200x250/141419/ff007f";
+                    const titulo = item.titulo || "Artículo Shein";
+
+                    let tallasHtml = '';
+                    if (item.tallas && item.tallas.length > 0) {
+                        item.tallas.forEach(t => tallasHtml += `<option value="${t}">${t}</option>`);
+                    } else tallasHtml = '<option value="Única">Única</option>';
+
+                    let coloresHtml = '';
+                    if (item.colores && item.colores.length > 0) {
+                        item.colores.forEach(c => coloresHtml += `<option value="${c}">${c}</option>`);
+                    } else coloresHtml = '<option value="Como Foto">Como Foto</option>';
+
+                    const tituloSeguro = titulo.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+
+                    html += `
+                    <div class="product-card glass-panel">
+                        <img src="${imagen}" alt="Producto" class="product-img">
+                        <div class="product-info">
+                            <h4 title="${titulo}">${titulo}</h4>
+                            <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                                <select id="talla-${idProd}" class="neon-select" style="padding: 5px; font-size: 0.85em;">${tallasHtml}</select>
+                                <select id="color-${idProd}" class="neon-select" style="padding: 5px; font-size: 0.85em;">${coloresHtml}</select>
+                            </div>
+                            <p class="price-usd">$${precioUSD.toFixed(2)}</p>
+                            <p class="price-ves">Aprox. ${precioBs} Bs</p>
+                            <button class="btn-neon btn-small" onclick="agregarAlCarrito('${tituloSeguro}', ${precioUSD}, 'talla-${idProd}', 'color-${idProd}')">Añadir al Carrito</button>
+                        </div>
+                    </div>`;
+                });
+                
+                document.getElementById('grid-catalogo').innerHTML = html || '<div class="glass-card"><p class="text-muted">Catálogo en mantenimiento. Vuelve pronto.</p></div>';
+            } catch (error) {
+                console.error(error);
+                document.getElementById('grid-catalogo').innerHTML = '<div class="glass-card"><p style="color:red;">Error de conexión.</p></div>';
+            }
+        }
+
+      // =========================================
+        // CARGAR MIS PEDIDOS (HISTORIAL REAL CON FACTURA)
+        // =========================================
+        window.pedidosGlobalesCliente = {}; // Memoria RAM para las facturas
+
+        async function cargarMisPedidos() {
+            const user = window.auth.currentUser;
+            if(!user) return;
+            const contenedor = document.getElementById('lista-mis-pedidos');
+            
+            try {
+                const querySnapshot = await window.getDocs(window.collection(window.db, "Pedidos"));
+                let html = '';
+                window.pedidosGlobalesCliente = {}; // Limpiamos la memoria
+                
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    if(data.id_cliente === user.uid) {
+                        const idDoc = docSnap.id;
+                        const idCorto = idDoc.substring(0,6).toUpperCase();
+                        const estado = data.estado_pedido || "En espera de verificación";
+                        
+                        window.pedidosGlobalesCliente[idDoc] = data; // Almacena la factura
+                        
+                        let progreso = "15%"; let colorBadge = "var(--fucsia-neon)"; let animacion = "pulse-anim";
+                        
+                        // Lógica de Semáforo
+                        if(estado.includes("Rechazado")) { progreso = "5%"; colorBadge = "#ff3333"; animacion = ""; }
+                        else if(estado.includes("Procesado")) { progreso = "50%"; colorBadge = "#ffd700"; animacion = ""; }
+                        else if(estado.includes("Casillero") || estado.includes("Guía")) { progreso = "75%"; colorBadge = "#00ff88"; animacion = ""; }
+                        else if(estado === "Entregado" || estado === "Completado") { progreso = "100%"; colorBadge = "#00ff88"; animacion = ""; }
+
+                        let btnRastreo = data.guia_zoom ? `<button class="btn-neon btn-small" style="width:100%; margin-top:15px; border-color:#00ff88; color:#00ff88; background:rgba(0,255,136,0.1);" onclick="rastrearGuiaZoom('${data.guia_zoom}')">🔍 Rastrear Guía Zoom: ${data.guia_zoom}</button>` : '';
+
+                        html += `
+                        <div class="glass-card" style="margin-bottom:15px; border-color:${colorBadge};">
+                            <div class="order-header">
+                                <span>Pedido <strong>#MS-${idCorto}</strong> ($${data.total_pagar.toFixed(2)})</span>
+                                <span class="status-badge ${animacion}" style="color:${colorBadge}; border-color:${colorBadge}; text-align:right; font-size:0.8em; max-width:120px;">${estado}</span>
+                            </div>
+                            <p style="font-size: 0.85em; color: var(--text-muted); margin-bottom:10px;">Referencia enviada: <strong>${data.referencia_pago || 'N/A'}</strong></p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: ${progreso}; background:${colorBadge}; box-shadow: 0 0 10px ${colorBadge};"></div>
+                            </div>
+                            ${btnRastreo}
+                            <button class="btn-neon btn-small" style="width:100%; margin-top:15px; background: rgba(255,0,127,0.1); border: 1px solid var(--fucsia-neon);" onclick="generarFacturaCliente('${idDoc}')">🧾 Ver Historial de Compra</button>
+                        </div>`;
+                    }
+                });
+
+                contenedor.innerHTML = html || '<div class="glass-card"><p class="text-muted">Aún no tienes pedidos activos. ¡Compra ahora!</p></div>';
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        // Transición final hacia el panel
+        window.entrarAlDashboard = function() {
+            document.getElementById('auth-wrapper').style.display = 'none';
+            document.getElementById('dashboard-section').style.display = 'block';
+            cargarMisPedidos();
+            cargarCatalogoSeguro(); // Dispara el catálogo solo cuando ya entraste
+        };
+
+        // =========================================
+        // CARGAR CATÁLOGO Y SISTEMA DE FILTROS E-COMMERCE
+        // =========================================
+        window.catalogoOriginalBD = []; // Memoria global para filtrar sin gastar internet
+
+        window.cargarCatalogoSeguro = async function() {
+            if (!window.db) { setTimeout(window.cargarCatalogoSeguro, 500); return; }
+
+            try {
+                const querySnapshot = await window.getDocs(window.collection(window.db, "Productos"));
+                window.catalogoOriginalBD = [];
+                
+                querySnapshot.forEach((docSnap) => {
+                    const item = docSnap.data();
+                    if (item.estado !== "Agotada") {
+                        item.idProd = docSnap.id; // Guardamos el ID de Firebase
+                        window.catalogoOriginalBD.push(item);
+                    }
+                });
+                
+                // Mostrar todas las prendas al inicio
+                renderizarGrilla(window.catalogoOriginalBD);
+            } catch (error) {
+                console.error("Error cargando catálogo:", error);
+                document.getElementById('grid-catalogo').innerHTML = '<div class="glass-card"><p style="color:red;">Fallo de conexión al cargar las prendas.</p></div>';
+            }
+        };
+
+       // =========================================
+        // PAGINACIÓN DEL CATÁLOGO (20 EN 20)
+        // =========================================
+        let paginaActualCat = 1;
+        const ITEMS_CATALOGO = 20;
+        window.filtroActualCat = []; // Lo que se está viendo (Damas, Niños, etc)
+
+        window.cambiarPaginaCatalogo = function(pagina) {
+            paginaActualCat = pagina;
+            renderizarPaginacionYGrilla();
+            // Scroll hacia arriba automático al cambiar de página
+            document.querySelector('.content').scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        function renderizarGrilla(arrayProductos) {
+            window.filtroActualCat = arrayProductos;
+            paginaActualCat = 1;
+            renderizarPaginacionYGrilla();
+        }
+
+        function renderizarPaginacionYGrilla() {
+            const inicio = (paginaActualCat - 1) * ITEMS_CATALOGO;
+            const itemsPagina = window.filtroActualCat.slice(inicio, inicio + ITEMS_CATALOGO);
+            
+            let html = '';
+            window.productosGlobales = {}; 
+            
+            itemsPagina.forEach((item) => {
+                const idProd = item.idProd || Math.random().toString(36).substring(7); 
+                const precioUSD = item.precio || item.precio_mackenzie || item.precio_shein_oculto || 0;
+                
+                // Novedad: Ahora Firebase enviará un arreglo "imagenes_galeria"
+                const imagenesGrid = item.imagenes_galeria || [item.imagen || (item.imagenes && item.imagenes[0]) || "https://via.placeholder.com/200"];
+                const titulo = item.titulo || "Artículo Shein";
+
+                let tallasHtml = '';
+                if (item.tallas && item.tallas.length > 0) { item.tallas.forEach(t => tallasHtml += `<option value="${t}">${t}</option>`); } 
+                else tallasHtml = '<option value="Única">Única</option>';
+
+                let coloresHtml = '';
+                if (item.colores && item.colores.length > 0) { item.colores.forEach(c => coloresHtml += `<option value="${c}">${c}</option>`); } 
+                else coloresHtml = '<option value="Como Foto">Como Foto</option>';
+
+                // Guardamos TODO el arreglo de fotos en la memoria global
+                window.productosGlobales[idProd] = {
+                    titulo: titulo, descripcion: item.descripcion || "Diseño exclusivo de temporada. Tela de alta calidad.",
+                    precio: precioUSD, galeria: imagenesGrid, tallasHtml: tallasHtml, coloresHtml: coloresHtml
+                };
+
+                html += `
+                <div class="product-card glass-panel">
+                    <img src="${imagenesGrid[0]}" alt="Producto" class="product-img" style="cursor: pointer;" onclick="abrirModalProducto('${idProd}')">
+                    <div class="product-info">
+                        <h4 title="${titulo}" style="cursor: pointer;" onclick="abrirModalProducto('${idProd}')">${titulo}</h4>
+                        <div style="display:none;" class="filtros-ocultos">
+                            <select id="talla-${idProd}">${tallasHtml}</select>
+                            <select id="color-${idProd}">${coloresHtml}</select>
+                        </div>
+                        <p class="price-usd">$${precioUSD.toFixed(2)}</p>
+                        <button class="btn-neon btn-small" onclick="abrirModalProducto('${idProd}')">Ver Galería & Comprar</button>
+                    </div>
+                </div>`;
+            });
+            document.getElementById('grid-catalogo').innerHTML = html || '<div class="glass-card"><p class="text-muted">No hay prendas disponibles.</p></div>';
+
+            // Dibujar Botones de Paginación (1, 2, 3...)
+            const paginador = document.getElementById('paginacion-catalogo');
+            if(window.filtroActualCat.length > ITEMS_CATALOGO) {
+                let pHTML = '';
+                const totalPaginas = Math.ceil(window.filtroActualCat.length / ITEMS_CATALOGO);
+                for(let p=1; p<=totalPaginas; p++) {
+                    pHTML += `<button class="page-btn ${p===paginaActualCat?'active':''}" onclick="cambiarPaginaCatalogo(${p})">${p}</button>`;
+                }
+                paginador.innerHTML = pHTML; paginador.style.display = 'flex';
+            } else { paginador.style.display = 'none'; }
+        }
+
+        // FULTRADO RÁPIDO DE CATEGORÍAS
+        window.filtrarCategoria = function(categoria, btn) {
+            // Cambiar color del botón activo
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if(categoria === 'Todas') {
+                renderizarGrilla(window.catalogoOriginalBD);
+            } else {
+                // Filtra buscando coincidencias en la categoría o en el título
+                const filtrados = window.catalogoOriginalBD.filter(item => 
+                    (item.categoria && item.categoria.includes(categoria)) || 
+                    (item.titulo && item.titulo.toLowerCase().includes(categoria.toLowerCase()))
+                );
+                renderizarGrilla(filtrados);
+            }
+        };
+
+        // =========================================
+        // AGENTE VISUAL: BÚSQUEDA POR FOTO
+        // =========================================
+        window.buscarPrendaPorImagen = async function(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            mostrarNotificacion("👁️ IA Analizando tu foto... Buscando en Shein.");
+            document.getElementById('grid-catalogo').innerHTML = '<div class="glass-card" style="text-align:center;"><div class="spinner" style="margin: 0 auto;"></div><p class="text-fucsia pulse-anim">El Agente Visual está escaneando catálogos internacionales...</p></div>';
+
+            try {
+                const base64 = await convertirABase64(file);
+                // Conectamos con tu Servidor Node.js
+                const res = await fetch('http://localhost:3000/api/buscar-imagen', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ imagen: base64 })
+                });
+                const data = await res.json();
+
+                if(data.success && data.productos.length > 0) {
+                    mostrarNotificacion("✅ ¡Mira lo que la IA encontró para ti!");
+                    renderizarGrilla(data.productos); // Dibujamos lo que trajo el bot
+                } else {
+                    mostrarNotificacion("❌ La IA no encontró prendas exactas. Intenta con otra foto.");
+                    renderizarGrilla(window.catalogoOriginalBD); // Volvemos a la normalidad
+                }
+            } catch(e) {
+                console.error("Error del Agente Visual:", e);
+                mostrarNotificacion("❌ Error al conectar con el servidor de IA.");
+                renderizarGrilla(window.catalogoOriginalBD);
+            }
+        };
+
+        // =========================================
+        // FUNCIONES DE INTERFAZ Y CIERRE DE SESIÓN
+        // =========================================
+        window.cerrarSesion = function() {
+            document.getElementById('dashboard-section').style.display = 'none';
+            document.getElementById('auth-wrapper').style.display = 'flex';
+            const card = document.getElementById('auth-card');
+            if(card.classList.contains('flipped')) { card.classList.remove('flipped'); }
+        };
+       // Navegación de pestañas en el Dashboard
+        window.cambiarPestana = function(idPestana, btnElemento) {
+            const contenidos = document.querySelectorAll('.tab-content');
+            contenidos.forEach(c => c.classList.remove('active-tab'));
+
+            const botones = document.querySelectorAll('.nav-btn');
+            botones.forEach(b => b.classList.remove('active'));
+
+            document.getElementById(idPestana).classList.add('active-tab');
+            btnElemento.classList.add('active');
+
+            // Lógica Estricta: Mostrar carrito flotante SOLO si estamos en "Catálogo"
+            const floatCart = document.getElementById('floating-cart');
+            if (floatCart) {
+                if (idPestana === 'catalogo' && carrito.length > 0) floatCart.style.display = 'flex';
+                else floatCart.style.display = 'none';
+            }
+        };
+
+       // =========================================
+        // LÓGICA DE ARRASTRE DEL CARRITO FLOTANTE (BLINDADA)
+        // =========================================
+        const cartIcon = document.getElementById('floating-cart');
+        let isDragging = false; let hasDragged = false;
+        let startX, startY, initialX, initialY;
+
+        function startDrag(e) {
+            isDragging = true; hasDragged = false;
+            startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            startY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+            
+            // Calculamos la posición física real
+            const rect = cartIcon.getBoundingClientRect();
+            initialX = rect.left; 
+            initialY = rect.top;
+            
+            cartIcon.style.transition = 'none';
+            // ROMPER EL ANCLAJE ORIGINAL ESTRICTAMENTE
+            cartIcon.style.right = 'auto'; 
+            cartIcon.style.bottom = 'auto';
+            cartIcon.style.left = initialX + 'px';
+            cartIcon.style.top = initialY + 'px';
+        }
+        function moveDrag(e) {
+            if (!isDragging) return;
+            const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            const currentY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+            const dx = currentX - startX; const dy = currentY - startY;
+            
+            // Si el cliente mueve el dedo más de 5 píxeles, se considera un arrastre, no un clic
+            if(Math.abs(dx) > 5 || Math.abs(dy) > 5) hasDragged = true;
+            
+            cartIcon.style.left = `${initialX + dx}px`;
+            cartIcon.style.top = `${initialY + dy}px`;
+        }
+        function endDrag(e) {
+            if (!isDragging) return;
+            isDragging = false;
+            cartIcon.style.transition = '0.3s';
+            if (!hasDragged) {
+                // Ir al carrito solo si fue un clic limpio
+                cambiarPestana('carrito', document.querySelectorAll('.nav-btn')[3]);
+            }
+        }
+        cartIcon.addEventListener('mousedown', startDrag); document.addEventListener('mousemove', moveDrag); document.addEventListener('mouseup', endDrag);
+        cartIcon.addEventListener('touchstart', startDrag, {passive: true}); document.addEventListener('touchmove', moveDrag, {passive: true}); document.addEventListener('touchend', endDrag);
+
+       // =========================================
+        // FACTURA DIGITAL DETALLADA (HISTORIAL)
+        // =========================================
+        window.generarFacturaCliente = function(id) {
+            const p = window.pedidosGlobalesCliente[id];
+            if(!p) return;
+            const idCorto = id.substring(0,6).toUpperCase();
+            
+            // Cálculos Financieros
+            const total = p.total_pagar || 0;
+            const porcentaje = p.porcentaje_abonado || 50; 
+            const abonado = p.monto_abonado_usd || (total * (porcentaje / 100));
+            const restante = p.restante_usd || (total - abonado);
+            
+            // Fechas y Horas Exactas
+            const fechaObj = p.fecha ? new Date(p.fecha) : new Date();
+            const fechaStr = fechaObj.toLocaleDateString('es-VE');
+            const horaStr = fechaObj.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit' });
+            
+            // Desglose de Artículos
+            let listaRopa = '<ul style="padding-left: 15px; text-align: left; font-size: 0.85em; color: var(--text-muted); margin-bottom: 15px;">';
+            if(p.articulos && p.articulos.length > 0) {
+                p.articulos.forEach(art => { 
+                    listaRopa += `<li style="margin-bottom: 8px;">
+                        <strong style="color: white;">${art.cantidad}x</strong> ${art.nombre} <br>
+                        <span style="font-size: 0.9em; color: var(--fucsia-neon);">Talla: ${art.talla} | Color: ${art.color}</span> 
+                        <span style="float:right; color: white;">$${(art.precio * art.cantidad).toFixed(2)}</span>
+                    </li>`; 
+                });
+            } else {
+                listaRopa += `<li>Artículos no detallados en este registro.</li>`;
+            }
+            listaRopa += '</ul>';
+
+            // Ocultar la estructura del producto individual (carrusel y botones)
+            const carrusel = document.getElementById('carrusel-fotos');
+            if(carrusel) carrusel.style.display = 'none';
+            document.getElementById('detalle-talla').parentElement.style.display = 'none';
+            document.getElementById('btn-detalle-agregar').style.display = 'none';
+            
+            // Ocultar el texto "Selecciona tu preferencia"
+            const infoDiv = document.querySelector('.modal-body-info');
+            if(infoDiv) {
+                const titulosPreferencias = infoDiv.querySelectorAll('h4');
+                titulosPreferencias.forEach(h4 => h4.style.display = 'none');
+            }
+
+            // Dibujar la factura
+            document.getElementById('detalle-precio').innerText = `Factura #MS-${idCorto}`;
+            document.getElementById('detalle-precio-ves').innerText = `Recibo Oficial`;
+            document.getElementById('detalle-titulo').innerText = `Historial y Estatus de Compra`;
+            
+            document.getElementById('detalle-desc').innerHTML = `
+                <div style="text-align: left; font-size: 0.95em; margin-bottom: 10px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);">
+                    <p style="margin: 5px 0;"><strong>Estado Actual:</strong> <span style="color:var(--fucsia-neon); font-weight:bold;">${p.estado_pedido || 'En Proceso'}</span></p>
+                    <p style="margin: 5px 0;"><strong>Fecha:</strong> ${fechaStr}</p>
+                    <p style="margin: 5px 0;"><strong>Hora Exacta:</strong> ${horaStr}</p>
+                    <p style="margin: 5px 0;"><strong>Método:</strong> ${p.tipo_pago || 'Transferencia'}</p>
+                    <p style="margin: 5px 0;"><strong>Ref. Bancaria:</strong> ${p.referencia_pago || 'N/A'}</p>
+                    
+                    <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;">
+                    <h4 style="margin: 0 0 10px 0; color: var(--text-light);">Desglose de Ropa:</h4>
+                    ${listaRopa}
+                    
+                    <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Total Compra:</span>
+                        <strong>$${total.toFixed(2)}</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; color: #00ff88;">
+                        <span>Abonado (${porcentaje}%):</span>
+                        <strong>$${abonado.toFixed(2)}</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ff3333; color: #ff3333; font-size: 1.1em; font-weight: bold;">
+                        <span>Deuda Restante:</span>
+                        <span>$${restante.toFixed(2)}</span>
+                    </div>
+                    
+                    <div style="background: rgba(255,0,127,0.1); padding: 10px; border-radius: 8px; margin-top: 20px; border: 1px dashed var(--fucsia-neon);">
+                        <p style="font-size: 0.8em; color: var(--text-light); text-align:center; margin:0;">⚠️ La deuda restante deberá cancelarse a la tasa Binance del día de la entrega.</p>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modal-producto-detalle').classList.add('show');
+            
+            // Al cerrar el modal, restauramos la estructura para no dañar el catálogo
+            const btnClose = document.querySelector('#modal-producto-detalle .btn-close-full') || document.querySelector('#modal-producto-detalle .btn-close');
+            const oldClick = btnClose.onclick;
+            btnClose.onclick = function() {
+                if(carrusel) carrusel.style.display = 'block';
+                document.getElementById('detalle-talla').parentElement.style.display = 'flex';
+                document.getElementById('btn-detalle-agregar').style.display = 'block';
+                
+                // Restaurar el texto de preferencia para cuando vean ropa otra vez
+                if(infoDiv) {
+                    const titulosPreferencias = infoDiv.querySelectorAll('h4');
+                    titulosPreferencias.forEach(h4 => h4.style.display = 'block');
+                }
+                
+                document.getElementById('modal-producto-detalle').classList.remove('show');
+                btnClose.onclick = oldClick;
+            };
+        };
+
+       // Mostrar nombres de archivos
+        window.actualizarNombreArchivo = function(input) {
+            const nombre = input.files[0] ? input.files[0].name : '';
+            document.getElementById('file-name').innerText = "Seleccionado: " + nombre;
+        };
+        
+        window.actualizarNombreArchivoPago = function(input) {
+            const nombre = input.files[0] ? input.files[0].name : '';
+            document.getElementById('file-name-pago').innerText = "Captura seleccionada: " + nombre;
+        };
+
+        // =========================================
+        // LÓGICA DE PROCESAMIENTO DE PEDIDO REAL
+        // =========================================
+        window.abrirFormularioPago = function() {
+            document.getElementById('resumen-carrito').querySelector('button').style.display = 'none';
+            document.getElementById('formulario-pago-carrito').style.display = 'block';
+        };
+
+        // Convertir imagen en código seguro
+        function convertirABase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        window.procesarPedidoFinal = async function() {
+            const refPago = document.getElementById('pago-referencia').value;
+            const inputImagen = document.getElementById('pago-imagen');
+            
+            if (refPago.length < 5) {
+                mostrarNotificacion("⚠️ Por favor ingresa los 6 dígitos de tu referencia.");
+                return;
+            }
+            if (!inputImagen.files[0]) {
+                mostrarNotificacion("⚠️ Debes adjuntar la captura del pago (Capture).");
+                return;
+            }
+
+            const user = window.auth.currentUser;
+            if(!user) {
+                mostrarNotificacion("⚠️ La sesión expiró. Inicia sesión de nuevo.");
+                return;
+            }
+
+            mostrarNotificacion("⏳ Procesando comprobante... No cierres la ventana.");
+            
+            try {
+                // Obtener datos del cliente
+                const userDoc = await window.getDoc(window.doc(window.db, "Usuarios", user.uid));
+                const clienteData = userDoc.exists() ? userDoc.data() : { nombre: "Usuario" };
+                
+              // ☁️ SUBIDA PROFESIONAL A CLOUDINARY
+                mostrarNotificacion("☁️ Subiendo comprobante a alta calidad...");
+                const formData = new FormData();
+                formData.append('file', inputImagen.files[0]);
+                formData.append('upload_preset', 'TU_UPLOAD_PRESET'); // <--- CAMBIA ESTO
+                formData.append('cloud_name', 'TU_CLOUD_NAME');       // <--- CAMBIA ESTO
+
+                const resCloud = await fetch('https://api.cloudinary.com/v1_1/TU_CLOUD_NAME/image/upload', { // <--- CAMBIA TU_CLOUD_NAME AQUÍ TAMBIÉN
+                    method: 'POST',
+                    body: formData
+                });
+                const cloudData = await resCloud.json();
+                
+                if(!cloudData.secure_url) {
+                    mostrarNotificacion("❌ Falló la subida de la imagen. Intenta de nuevo.");
+                    return;
+                }
+                const urlImagenFinal = cloudData.secure_url;
+
+                let totalUSD = 0;
+                carrito.forEach(item => totalUSD += (item.precio * item.cantidad));
+
+                // Capturar el porcentaje de abono que eligió el cliente (50%, 60%, 100%)
+                const porcentaje = parseFloat(document.getElementById('porcentaje-pago').value) || 0.5;
+                const abonoUSD = totalUSD * porcentaje;
+                const restanteUSD = totalUSD - abonoUSD;
+
+                // 🚀 ENVIAR PEDIDO OFICIAL A FIREBASE (CON DATOS CONTABLES)
+                await window.addDoc(window.collection(window.db, "Pedidos"), {
+                    id_cliente: user.uid,
+                    nombre_cliente: clienteData.nombre + " " + (clienteData.apellido || ''),
+                    telefono: clienteData.telefono || '',
+                    articulos: carrito,
+                    total_pagar: totalUSD,
+                    porcentaje_abonado: porcentaje * 100, // Guarda 50, 60, 100...
+                    monto_abonado_usd: abonoUSD,
+                    restante_usd: restanteUSD,
+                    tiempo_entrega: "15 a 20 días hábiles",
+                    estado_pedido: "En espera de verificación",
+                    tipo_pago: `Pago Móvil (Abono ${porcentaje * 100}%)`,
+                    referencia_pago: refPago,
+                    comprobante_img: urlImagenFinal, // Capture anclado
+                    fecha: new Date().toISOString()
+                });
+
+                // Vaciar Carrito y notificar
+                carrito = [];
+                guardarCarrito();
+                actualizarCarritoUI();
+                document.getElementById('formulario-pago-carrito').style.display = 'none';
+                
+                mostrarNotificacion("✅ ¡Pago Reportado! En espera de verificación.");
+                
+                // Redirigir a pestaña Mis Pedidos
+                document.querySelectorAll('.nav-btn')[4].click();
+                cargarMisPedidos(); // Dibuja el nuevo pedido recién creado
+
+            } catch (error) {
+                console.error("Fallo al subir el pedido:", error);
+                mostrarNotificacion("❌ Hubo un error de conexión al enviar el comprobante.");
+            }
+        };
+
+        // Función original de la pestaña "Pagos" (manual)
+        window.subirComprobante = function(e) {
+            e.preventDefault();
+            mostrarNotificacion('¡Comprobante alterno enviado a revisión!');
+            e.target.reset();
+            document.getElementById('file-name').innerText = '';
+        }
+     // =========================================
+        // AGENTE DE RASTREO ZOOM PARA EL CLIENTE
+        // =========================================
+        window.rastrearGuiaZoom = async function(guia) {
+            mostrarNotificacion("🤖 El Agente está buscando la guía en Zoom. Espera...");
+            try {
+                const res = await fetch('http://localhost:3000/api/rastrear-zoom', {
+                    method: 'POST', 
+                    headers: {'Content-Type': 'application/json'}, 
+                    body: JSON.stringify({ guia: guia })
+                });
+                const data = await res.json();
+                if(data.success) {
+                    alert("📦 REPORTE ZOOM LOGÍSTICA:\n\n" + data.estado);
+                } else {
+                    mostrarNotificacion("❌ Error: " + data.error);
+                }
+            } catch(e) {
+                mostrarNotificacion("❌ Error de red al contactar al Agente.");
+            }
+        };
+
+        // =========================================
+        // AUTOCOMPLETADO DE GMAIL Y MODAL TÉRMINOS
+        // =========================================
+        window.autocompletarGmail = function(idInput) {
+            const input = document.getElementById(idInput);
+            if (!input.value.includes('@')) {
+                input.value = input.value + "@gmail.com";
+                // Hace vibrar un poquito el input visualmente para confirmar
+                input.style.transform = "scale(1.02)";
+                setTimeout(() => input.style.transform = "scale(1)", 150);
+            }
+        };
+
+       window.abrirTerminos = function() {
+            document.getElementById('modal-terminos').style.display = 'flex';
+        };
+    </script>
+</body>
+</html>
